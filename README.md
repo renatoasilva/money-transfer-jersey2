@@ -1,5 +1,5 @@
 # money-transfer
-Simple money transfer RESTful api application using Jersey 2 framework.
+Simple money transfer RESTful api application using Jersey 2 framework and an embedded jetty server.
 
 Application provides several endpoints to create accounts, top up balance, transfer money between existing accounts and retrieval of transactions associated to an account (including failures).
 
@@ -7,7 +7,7 @@ The storage of the accounts is in memory.
 
 # Application
 
-Created using Jersey 2.25. Uses lombok 1.18.4.
+Created using Jersey 2.25, and jetty 9.4.X. Uses lombok 1.18.4.
 
 Configured to run on port 8080, using the url:
 
@@ -16,7 +16,7 @@ http://localhost:8080/money-transfer
 ```
 ## Endpoints
 
-The available endpoints are the following (I have tried to use swagger but was unable to configure it properly. Will try again later):
+The available endpoints are the following:
 
 * Create account:
     * ``POST http://localhost:8080/money-transfer/accounts``.
