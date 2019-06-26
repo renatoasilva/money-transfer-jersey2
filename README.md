@@ -212,12 +212,14 @@ Tests written using Junit 5. Some of the controller and integration tests are wr
 * Using mvn
 
 ```
-./mvnw exec:java
+mvn exec:java
 ```
 
 * Or using the standard jar:
 
 ```
-./mvn package #generates the jar file
-java -jar target/com-money-transfer-server-0.1.jar
+mvn package #generates the jar file
+java -jar target/Money-Transfer-jar-with-dependencies.jar
 ```
+
+* Or using an IDE, using the class `com.rsilva.rest.Main`.
