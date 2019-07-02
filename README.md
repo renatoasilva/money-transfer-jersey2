@@ -230,4 +230,4 @@ mvn package #generates the jar file
 java -jar target/Money-Transfer-jar-with-dependencies.jar
 ```
 
-* Or using an IDE, using the class `com.rsilva.rest.Main`.
+* Or using an IDE, using the class `com.rsilva.rest.App`.
