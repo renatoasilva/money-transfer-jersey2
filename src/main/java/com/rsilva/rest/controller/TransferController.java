@@ -41,6 +41,7 @@ public class TransferController {
 
 	@POST
 	@Path("/top-up")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Transaction topUp(@NotNull @Valid TopUpRequest topUpRequest) {
 		return transferService.topUp(topUpRequest);
