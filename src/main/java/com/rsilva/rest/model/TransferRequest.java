@@ -18,9 +18,11 @@ import lombok.NoArgsConstructor;
 public class TransferRequest {
 
 	@NotBlank
+	@NotNull
 	private String originAccountId;
 
 	@NotBlank
+	@NotNull
 	private String recipientAccountId;
 
 	@NotNull
