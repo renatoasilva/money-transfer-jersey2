@@ -5,10 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Singleton;
+
 import com.rsilva.rest.model.Amount;
 import com.rsilva.rest.model.Error;
 import com.rsilva.rest.model.Transaction;
 
+@Singleton
 public class TransactionRepositoryImpl implements TransactionRepository {
 
 	private List<Transaction> transactions = Collections.synchronizedList(new ArrayList<>());

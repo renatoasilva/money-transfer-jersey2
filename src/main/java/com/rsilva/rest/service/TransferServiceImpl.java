@@ -1,6 +1,5 @@
 package com.rsilva.rest.service;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import javax.inject.Singleton;
 
 import com.rsilva.rest.model.Amount;
 import com.rsilva.rest.model.Error;
+import com.rsilva.rest.model.TopUpRequest;
 import com.rsilva.rest.model.Transaction;
 import com.rsilva.rest.model.TransferRequest;
 import com.rsilva.rest.repository.AccountRepository.Operation;
@@ -54,8 +54,9 @@ public class TransferServiceImpl implements TransferService {
 	}
 
 	@Override
-	public Transaction topUp(String accountId, BigDecimal topUpamount) {
-		Amount amount = Amount.builder().units(topUpamount).build();
+	public Transaction topUp(TopUpRequest topUpRequest) {
+		String accountId = topUpRequest.getOriginAccountId();
+		Amount amount = Amount.builder().units(topUpRequest.getAmount()).build();
 		Error error = null;
 		Transaction transaction;
 		try {

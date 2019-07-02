@@ -26,6 +26,7 @@ import com.rsilva.rest.exception.AccountNotFoundException;
 import com.rsilva.rest.exception.InsufficientFundsException;
 import com.rsilva.rest.model.Amount;
 import com.rsilva.rest.model.Error;
+import com.rsilva.rest.model.TopUpRequest;
 import com.rsilva.rest.model.Transaction;
 import com.rsilva.rest.model.TransferRequest;
 import com.rsilva.rest.repository.AccountRepository.Operation;
@@ -134,16 +135,18 @@ public class TransferServiceImplTest {
 	public void testTopUp_Success() throws Exception {
 		when(transactionService.addTransaction(VALID_ACCOUNT_1, VALID_ACCOUNT_1,
 				Amount.builder().units(BigDecimal.TEN).build(), Collections.emptyList())).thenReturn(newTransaction);
+		TopUpRequest request = TopUpRequest.builder().originAccountId(VALID_ACCOUNT_1).amount(BigDecimal.TEN).build();
 
-		Transaction actual = underTest.topUp(VALID_ACCOUNT_1, BigDecimal.TEN);
+		Transaction actual = underTest.topUp(request);
 		assertThat(actual, is(newTransaction));
 	}
 
 	@Test
 	public void testTopUp_ValidationError_Fails() throws Exception {
 		when(accountService.getAccountBalance(INVALID_ACCOUNT_ID)).thenThrow(new AccountNotFoundException(INVALID_ACCOUNT_ID));
+		TopUpRequest request = TopUpRequest.builder().originAccountId(INVALID_ACCOUNT_ID).amount(BigDecimal.TEN).build();
 
-		Assertions.assertThrows(AccountNotFoundException.class, () -> underTest.topUp(INVALID_ACCOUNT_ID, BigDecimal.TEN));
+		Assertions.assertThrows(AccountNotFoundException.class, () -> underTest.topUp(request));
 	}
 
 }

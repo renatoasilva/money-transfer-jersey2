@@ -1,11 +1,9 @@
 package com.rsilva.rest.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
@@ -16,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.rsilva.rest.model.TopUpRequest;
 import com.rsilva.rest.model.Transaction;
 import com.rsilva.rest.model.TransferRequest;
 import com.rsilva.rest.service.TransferService;
@@ -41,10 +40,10 @@ public class TransferController {
 	}
 
 	@POST
-	@Path("/accounts/{accountId}/amount/{amount}")
+	@Path("/top-up")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Transaction topUp(@NotBlank @PathParam("accountId") String accountId, @NotNull @Min(1) @PathParam("amount") BigDecimal amount) {
-		return transferService.topUp(accountId, amount);
+	public Transaction topUp(@NotNull @Valid TopUpRequest topUpRequest) {
+		return transferService.topUp(topUpRequest);
 	}
 
 }

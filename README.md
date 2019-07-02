@@ -31,9 +31,17 @@ The available endpoints are the following:
         * Example: ``Amount(currency=GBP, units=3)``
         * Example of error: ``{"message": Bad Request: 'INVALID_ACCOUNT_ID' is an invalid account. Please provide a valid account."}``
 
-* Top up account balance: (_could have used an object request instead of input parameters_):
-    * ``POST http://localhost:8080/money-transfer/transfers/accounts/{accountId}/amount/{amount}``.
-    * Request: No input.
+* Top up account balance:
+    * ``POST http://localhost:8080/money-transfer/transfers/top-up``.
+    * Request: *TopUp request*.
+        * Example:
+
+```
+    {
+	"originAccountId": "d0a4ada1-bba5-40b7-99eb-8c7b390a38d5",
+	"amount": "2"
+	}
+```
     * Response: *Transaction object*.
        * Example:
 

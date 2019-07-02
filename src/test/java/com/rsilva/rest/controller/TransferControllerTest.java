@@ -31,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rsilva.rest.exception.AccountNotFoundException;
 import com.rsilva.rest.exception.InsufficientFundsException;
+import com.rsilva.rest.model.TopUpRequest;
 import com.rsilva.rest.model.Transaction;
 import com.rsilva.rest.model.TransferRequest;
 import com.rsilva.rest.service.TransferService;
@@ -121,31 +122,31 @@ public class TransferControllerTest extends JerseyTest {
 
 	@Test
 	public void testTopUp_Success() throws Exception {
-		when(transferService.topUp(any(String.class), any(BigDecimal.class))).thenReturn(listTransfers.get(0));
+		when(transferService.topUp(any(TopUpRequest.class))).thenReturn(listTransfers.get(0));
+		TopUpRequest request = TopUpRequest.builder().originAccountId(ACCOUNT_ID).amount(BigDecimal.TEN).build();
 
-		Transaction actual = target(String.format("transfers/accounts/%s/amount/%s", ACCOUNT_ID, 10)).request()
-				.post(Entity.json(String.class), Transaction.class);
+		Transaction actual = target("transfers/top-up").request().post(Entity.json(request), Transaction.class);
 
 		assertThat(actual, is(listTransfers.get(0)));
-		verify(transferService).topUp(ACCOUNT_ID, BigDecimal.TEN);
+		verify(transferService).topUp(request);
 	}
 
 	@Test
 	public void testTopUp_AccountNotFoundValidationError() throws Exception {
-		when(transferService.topUp(any(String.class), any(BigDecimal.class)))
-				.thenThrow(new AccountNotFoundException(ACCOUNT_ID));
+		when(transferService.topUp(any(TopUpRequest.class))).thenThrow(new AccountNotFoundException(ACCOUNT_ID));
+		TopUpRequest request = TopUpRequest.builder().originAccountId(ACCOUNT_ID).amount(BigDecimal.TEN).build();
 
-		Response response = target(String.format("transfers/accounts/%s/amount/%s", ACCOUNT_ID, 10)).request()
-				.post(Entity.json(String.class));
+		Response response = target("transfers/top-up").request()
+				.post(Entity.json(request));
 
 		assertThat(response.getStatus(), is(HttpStatus.INTERNAL_SERVER_ERROR_500.getStatusCode()));
-		verify(transferService).topUp(ACCOUNT_ID, BigDecimal.TEN);
+		verify(transferService).topUp(request);
 	}
 
 	@Test
 	public void testTopUp_ZeroAmountError() throws Exception {
-		Response response = target(String.format("transfers/accounts/%s/amount/%s", ACCOUNT_ID, 0)).request()
-				.post(Entity.json(String.class));
+		TopUpRequest request = TopUpRequest.builder().originAccountId(ACCOUNT_ID).amount(BigDecimal.ZERO).build();
+		Response response = target("transfers/top-up").request().post(Entity.json(request));
 
 		assertThat(response.getStatus(), is(HttpStatus.BAD_REQUEST_400.getStatusCode()));
 		verifyNoMoreInteractions(transferService);

@@ -1,8 +1,8 @@
 package com.rsilva.rest.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+import com.rsilva.rest.model.TopUpRequest;
 import com.rsilva.rest.model.Transaction;
 import com.rsilva.rest.model.TransferRequest;
 
@@ -16,6 +16,6 @@ public interface TransferService {
 
 	Transaction createTransfer(TransferRequest inputRequest);
 
-	Transaction topUp(String accountId, BigDecimal amount);
+	Transaction topUp(TopUpRequest topUpRequest);
 
 }

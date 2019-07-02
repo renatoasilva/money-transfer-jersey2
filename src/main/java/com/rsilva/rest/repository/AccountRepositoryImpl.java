@@ -5,11 +5,14 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Singleton;
+
 import com.rsilva.rest.exception.AccountNotFoundException;
 import com.rsilva.rest.exception.InsufficientFundsException;
 import com.rsilva.rest.model.Amount;
 import com.rsilva.rest.util.Utils;
 
+@Singleton
 public class AccountRepositoryImpl implements AccountRepository {
 
 	private Map<String, Amount> accounts = new ConcurrentHashMap<>();
@@ -34,7 +37,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 	}
 
 	@Override
-	public void updateAccountBalance(String accountId, Amount transactionAmount, Operation operation) {
+	public synchronized void updateAccountBalance(String accountId, Amount transactionAmount, Operation operation) {
 		Amount accountBalance = getAccountBalance(accountId);
 		if (Operation.CREDIT.equals(operation)) {
 			accountBalance.setUnits(accountBalance.getUnits().add(transactionAmount.getUnits()));
